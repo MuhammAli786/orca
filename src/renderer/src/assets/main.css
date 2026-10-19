@@ -506,14 +506,23 @@ html[data-window-glass] body {
 }
 
 /* The chat surface paints from its canvas. Text colors still derive from the opaque canvas above,
-   so only the painted background goes translucent. !important beats the producer's inline style. */
+   so only painted backgrounds go translucent. bg-chat-canvas reads --chat-canvas directly, and the
+   producer's inline --background needs !important to be overridden. */
 html[data-window-glass] .native-chat-appearance {
   --background: color-mix(
     in srgb,
     var(--chat-canvas) calc(var(--window-glass-opacity) * 100%),
     transparent
   ) !important;
-  --color-chat-canvas: var(--background);
+}
+
+html[data-window-glass] .native-chat-appearance.bg-chat-canvas,
+html[data-window-glass] .native-chat-appearance .bg-chat-canvas {
+  background-color: color-mix(
+    in srgb,
+    var(--chat-canvas) calc(var(--window-glass-opacity) * 100%),
+    transparent
+  );
 }
 
 /* Floating surfaces keep solid color inheritance for readable nested controls. */
